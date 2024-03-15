@@ -14,12 +14,12 @@
  * }
  */
 class Solution {
-    int res[] = new int[1];
+    int res;
     int count = 0;
     public int kthSmallest(TreeNode root, int k) {
         count = k;
         inorder(root, k);
-        return res[0];
+        return res;
         
     }
     
@@ -29,7 +29,7 @@ class Solution {
         }
         inorder(node.left, k);
         if (--count == 0) {
-            res[0] = node.val;
+            res = node.val;
             return;
         }
         inorder(node.right, k);
