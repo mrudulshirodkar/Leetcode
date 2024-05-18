@@ -1,36 +1,39 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        ArrayList<Integer>adj[] = new ArrayList[numCourses];
-        for(int i=0; i<numCourses; i++) {
+        
+        ArrayList<Integer> [] adj = new ArrayList[numCourses];
+        for(int i=0; i<numCourses; i++){
             adj[i] = new ArrayList<>();
         }
         
-        for(int[] prerequisite:prerequisites) {
-            adj[prerequisite[1]].add(prerequisite[0]);
+        for(int[] pre: prerequisites){
+            adj[pre[1]].add(pre[0]);
         }
-        int[] visited = new int[numCourses];
-        for(int i=0; i< numCourses; i++) {
-           if(!isCyclic(adj, visited, i)) {
-             return false;
-         } 
+        
+        int[] visited = new int [numCourses];
+        
+        for(int i=0; i<numCourses; i++){
+            if(!isCyclic(visited, adj, i))
+                return false;
         }
+        
         return true;
     }
     
-    boolean isCyclic(ArrayList<Integer>adj[], int[] visited, int src) {
-        if(visited[src] == 1) {
+    boolean isCyclic(int[] visited, ArrayList<Integer> [] adj, int start){
+        if(visited[start] == 1){
             return false;
         }
-        if(visited[src] == 2) {
+        if(visited[start] == 2){
             return true;
         }
-        visited[src] = 1;
-        for(Integer neighbour: adj[src]) {
-            if(!isCyclic(adj, visited, neighbour)) {
+        
+        visited[start] = 1;
+        for(int neighbor: adj[start]){
+            if(!isCyclic(visited, adj, neighbor))
                 return false;
-            }
         }
-        visited[src] = 2;
+        visited[start] = 2;
         return true;
     }
 }
