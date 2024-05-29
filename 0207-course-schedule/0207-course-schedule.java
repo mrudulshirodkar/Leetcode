@@ -1,38 +1,41 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        
+        boolean res = false;
         ArrayList<Integer> [] adj = new ArrayList[numCourses];
         for(int i=0; i<numCourses; i++){
             adj[i] = new ArrayList<>();
         }
-        
-        for(int[] pre: prerequisites){
-            adj[pre[1]].add(pre[0]);
+        for(int[] preq : prerequisites){
+            adj[preq[1]].add(preq[0]);
         }
         
-        int[] visited = new int [numCourses];
+        int[] visited = new int[numCourses];
         
         for(int i=0; i<numCourses; i++){
-            if(!isCyclic(visited, adj, i))
+            if(visited[i] == 0){
+                res = dfs(adj, visited, i);
+            }
+            
+            if(!res){
                 return false;
+            }
         }
         
-        return true;
+        return res;
+        
     }
     
-    boolean isCyclic(int[] visited, ArrayList<Integer> [] adj, int start){
-        if(visited[start] == 1){
-            return false;
-        }
-        if(visited[start] == 2){
-            return true;
-        }
+    public boolean dfs(ArrayList<Integer> [] adj, int[] visited, int start){
+        if(visited[start] == 1) return false;
+        if(visited[start] == 2) return true;
         
         visited[start] = 1;
-        for(int neighbor: adj[start]){
-            if(!isCyclic(visited, adj, neighbor))
+        for(int neigh: adj[start]){
+            if(!dfs(adj, visited, neigh)){
                 return false;
+            }
         }
+        
         visited[start] = 2;
         return true;
     }
