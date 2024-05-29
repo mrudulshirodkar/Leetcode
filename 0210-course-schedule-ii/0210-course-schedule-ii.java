@@ -1,6 +1,7 @@
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         int[] res = new int[numCourses];
+        boolean flag = false;
         ArrayList<Integer> [] adj = new ArrayList[numCourses];
         for(int i=0; i<numCourses; i++){
             adj[i] = new ArrayList<>();
@@ -12,9 +13,11 @@ class Solution {
         int[] visited = new int[numCourses];
         for(int i=0; i<numCourses; i++){
             if(visited[i] == 0){
-                if(!dfs(adj, visited, i)){
-                    return new int[]{};
-                }
+                flag = dfs(adj, visited, i);
+            }
+            
+            if(!flag){
+                return new int[]{};
             }
         }
         int j=0;
