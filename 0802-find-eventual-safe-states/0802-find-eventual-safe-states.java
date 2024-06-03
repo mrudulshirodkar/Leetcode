@@ -1,43 +1,28 @@
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
-        List<Integer> safe = new ArrayList<>();
-        Map<Integer, Boolean> memoisationMap = new HashMap<>();
-       
-        Set<Integer> visited = new HashSet<>();
+        List<Integer> res = new ArrayList<>();
+        HashMap<Integer, Boolean> safe = new HashMap<>();
         for(int i=0; i<graph.length; i++){
-            boolean res = dfs(i, graph, memoisationMap, visited);
-            memoisationMap.put(i, res);
-        }
-        
-        for(int i=0; i<memoisationMap.size(); i++){
-            if(memoisationMap.get(i)){
-                safe.add(i);
+            if(dfs(graph, i, safe)){
+                res.add(i);
             }
         }
-        return safe;
+        return res;
     }
     
-    private boolean dfs(int current, int[][] graph, Map<Integer, 
-                        Boolean> memoisationMap, Set<Integer> visited){
-        
-        if(memoisationMap.containsKey(current)){
-            return memoisationMap.get(current);
+    private boolean dfs(int[][] graph, int current, HashMap<Integer, Boolean> safe){
+        if(safe.containsKey(current)){
+            return safe.get(current);
         }
         
-        if(visited.contains(current)){
-            return false;
-        }
-        
-        memoisationMap.put(current, false);
-        visited.add(current);
+        safe.put(current, false);
         for(int neighbor: graph[current]){
-            if (!dfs(neighbor, graph, memoisationMap, visited)) {
+            if(!dfs(graph, neighbor, safe)){
                 return false;
             }
         }
         
-        visited.remove(current);
-        memoisationMap.put(current, true);
+        safe.put(current, true);
         return true;
     }
 }
