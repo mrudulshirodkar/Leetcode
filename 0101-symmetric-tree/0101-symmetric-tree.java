@@ -16,16 +16,19 @@
 class Solution {
     public boolean isSymmetric(TreeNode root) {
         
-        return isMirror(root.left, root.right);
-        
+        return check(root.left, root.right);
     }
-    public boolean isMirror(TreeNode p, TreeNode q){
-        if(p==null && q==null){
-            return true;
-        }
-        if((p!=null && q==null) || (p==null && q!=null)){
+    
+    public boolean check(TreeNode leftroot, TreeNode rightroot){
+        if(leftroot == null && rightroot == null) return true;
+        
+        if((leftroot != null && rightroot == null) || (leftroot == null && rightroot != null)) 
             return false;
-        }
-        return (p.val==q.val) && isMirror(p.left, q.right) && isMirror(p.right, q.left);
+        
+        boolean root1 = check(leftroot.left, rightroot.right);
+        boolean root2 = check(leftroot.right, rightroot.left);
+        
+        if(root1 && root2 && leftroot.val == rightroot.val) return true;
+        else return false;
     }
 }
