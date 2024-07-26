@@ -14,86 +14,36 @@
  * }
  */
 class Solution {
-    
-    public List<List<Integer>> zigzagLevelOrder(TreeNode root){
-        Queue<TreeNode> levels = new LinkedList<>();
-        levels.add(root);
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if(root == null) return result;
         
-        ArrayList<List<Integer>> res = new ArrayList<>();
-        if(root == null){
-            return res;
-        }
-        boolean lefttoright = true;
-        
-         while(!levels.isEmpty()){
-             int levelsize = levels.size();
-            ArrayList<Integer> samelevel = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        boolean flag = true;
+        while(!queue.isEmpty()){
+            int qSize = queue.size();
+            ArrayList<Integer> levelList = new ArrayList<>();
             
-            for(int i=0; i<levelsize; i++){
-                TreeNode node = levels.poll();
-                if(lefttoright){
-                    samelevel.add(node.val);
+            for(int i=0; i<qSize; i++){
+                TreeNode node = queue.poll();
+                if(flag){
+                    levelList.add(node.val);
                 }else{
-                    samelevel.add(0, node.val);
+                    levelList.add(0, node.val);
                 }
-                
                 if(node.left != null){
-                    levels.add(node.left);
+                        queue.add(node.left);
                 }
                 if(node.right != null){
-                    levels.add(node.right);
+                    queue.add(node.right);
                 }
+                
             }
-             res.add(samelevel);
-             lefttoright = !lefttoright;
-         }
-        return res;
-    }
-    
-    
-    
-    
-    
-    /*public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        Queue<TreeNode> levels = new LinkedList<>();
-        levels.add(root);
+            flag = !flag;
+            result.add(levelList);
+        }
         
-        ArrayList<List<Integer>> list1 = new ArrayList<>();
-        if(root == null){
-            return list1;
-        }
-        int count = 1;
-        while(!levels.isEmpty()){
-            int levelsize = levels.size();
-            ArrayList<Integer> list2 = new ArrayList<>();
-            
-            for(int i=0; i<levelsize; i++){
-                TreeNode node = levels.poll();
-                list2.add(node.val);
-                
-                if(count%2 == 0){
-                    if(node.left != null){
-                    levels.add(node.left);
-                    }
-                    if(node.right != null){
-                        levels.add(node.right);
-                    }
-                    
-                }
-                
-                else if(count%2 != 0){
-                    if(node.right != null){
-                        levels.add(node.right);
-                    }
-                    if(node.left != null){
-                    levels.add(node.left);
-                    }
-                   
-                }
-            }
-            count++;
-            list1.add(list2);
-        }
-        return list1;
-    }*/
+        return result;
+    }
 }
