@@ -16,19 +16,18 @@
 class Solution {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
         
-        String fullTree = treeTraverse(root);
-        String subTree = treeTraverse(subRoot);
+        String full = traverse(root);
+        String sub = traverse(subRoot);
         
-        return fullTree.contains(subTree);
+        return full.contains(sub);
     }
-    
-    public String treeTraverse(TreeNode node){
-        if(node == null) return "Null";
+    public String traverse(TreeNode node){
+        if(node == null) return "NULL";
         
-        StringBuilder sb = new StringBuilder(".");
+        StringBuilder sb = new StringBuilder("new");
         sb.append(node.val);
-        sb.append(treeTraverse(node.left));
-        sb.append(treeTraverse(node.right));
+        sb.append(traverse(node.left));
+        sb.append(traverse(node.right));
         
         return sb.toString();
     }
